@@ -1,0 +1,59 @@
+{% extends 'template.html' %}
+
+{% block static %}
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../../Blog1/static/css/common.css"/>
+<link rel="stylesheet" type="text/css" href="../../Blog1/static/css/about.css"/>
+<script src="../../Blog1/static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../Blog1/static/plugin/jquery.page.js"></script>
+<script src="../../Blog1/static/js/common.js"></script>
+<!--<script src="js/snowy.js"></script>-->
+{% endblock %}
+
+
+{% block content %}
+	<div class="w_container">
+		<div class="container">
+			<div class="row w_main_row">
+				
+				<ol class="breadcrumb w_breadcrumb">
+				  <li><a href="/">首页</a></li>
+				  <li class="active">关于我</li>
+				  <span class="w_navbar_tip">像“草根”一样，紧贴着地面，低调的存在，冬去春来，枯荣无恙。</span>
+				</ol>
+				
+				<div class="col-lg-9 col-md-9 w_main_left" style="height: 1000px;">
+					<div class="about">
+					  <h2>Just about me</h2>
+					    <ul>
+                            <p>关于博主</p>
+                            <p>90后一枚</p>
+                            <p>Python小白</p>
+                            <p>喜欢钻研python爬虫</p>
+                            <p>略懂Html、Css、JS等前端知识</p>
+                        </ul>
+
+					  <h2>About my blog</h2>
+					    <ul>
+					    	<p>域  名：www.tanghaolun.cn    <a href="https://wanwang.aliyun.com/domain/com/" class="blog_link" target="_blank">注册域名</a></p>
+						    <p>服务器：阿里云服务器<a href="https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=ha7g4y8o" class="blog_link" target="_blank">购买空间</a></p>
+					    </ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-3 w_main_right">
+					<div class="about_c">
+					    <p>昵称：<span>Alen</span> </p>
+					    <p>邮箱：861759757@qq.com</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="shape">
+		<div class="shapeColor">
+			<div class="shapeFly">
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

@@ -1,0 +1,11 @@
+				{% for mood in moods %}
+			    <ul class="arrow_box">
+			        <div class="sy">
+                        {% if mood.image %}
+			            <img src="/media/{{ mood.image }}">
+                        {% endif %}
+			            <p> {{ mood.content }}</p>
+			        </div>
+                    <span class="dateview">{{ mood.date|date:'Y-m-d' }}</span>
+			    </ul>
+			    {% endfor %}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{% block title %}糖小屋的个人博客{% endblock %}</title>
+	</head>
+    	<link href="../../Blog1/static/img/key.ico" rel="shortcut icon" />
+        <script src="../../Blog1/static/plugin/jquery.min.js"></script>
+
+
+    {% block static %}
+
+    {% endblock %}
+
+
+	<body>
+		<div class="w_header">
+			<div class="container">
+				<div class="w_header_top">
+					<a href="/" class="w_logo"></a>
+					<span class="w_header_nav">
+					<ul>
+						<li><a href="/" {% if current_url == "/" %}class="active"{% endif %}>首页</a></li>
+						<li><a href="/article" {% if current_url == "/article/" %}class="active"{% endif %}>文章</a></li>
+						<li><a href="/mood" {% if current_url == "/mood/" %}class="active"{% endif %}>说说</a></li>
+                        <li><a href="/about" {% if current_url == "/about/" %}class="active"{% endif %}>关于</a></li>
+					</ul>
+				</span>
+					<div class="w_search">
+						<div class="w_searchbox">
+							<input type="text" class="search_input" placeholder="search" />
+							<button class="search_button">搜索</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+        {% block content %}
+
+        {% endblock %}
+
+
+
+		<div class="w_foot">
+			<div class="w_foot_copyright">Copyright &copy; 2019. www.tanghaolun.cn. All Rights Reserved. <span>|</span>
+				<a target="_blank" href="http://www.miitbeian.gov.cn/" rel="nofollow">湘ICP备18017529号</a>
+			</div>
+		</div>
+	</body>
+
+
+	<script type="text/javascript">
+		var $backToTopEle = $('<a href="javascript:void(0)" class="Hui-iconfont toTop" title="返回顶部" alt="返回顶部" style="display:none">^</a>').appendTo($("body")).click(function() {
+			$("html, body").animate({ scrollTop: 0 }, 120);
+		});
+		var backToTopFun = function() {
+			var st = $(document).scrollTop(),
+				winh = $(window).height();
+			(st > 0) ? $backToTopEle.show(): $backToTopEle.hide();
+			/*IE6下的定位*/
+			if(!window.XMLHttpRequest) {
+				$backToTopEle.css("top", st + winh - 166);
+			}
+		};
+
+		$(function() {
+			$(window).on("scroll", backToTopFun);
+			backToTopFun();
+		});
+	</script>
+    <script>
+            $(document).keyup(function(event){
+            if(event.keyCode ==13){
+                $(".search_button").trigger("click");
+              }
+            });
+            $('.search_button').click(function () {
+                var keywords = $('.search_input').val();
+                if(keywords != ""){window.location.href = "/search?keywords=" + keywords;}
+            });
+    </script>
+
+
+</html>

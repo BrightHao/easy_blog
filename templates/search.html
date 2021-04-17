@@ -1,0 +1,193 @@
+{% extends "template.html" %}
+
+{% block title %}搜索结果{% endblock %}
+
+{% block static %}
+	<link href="../../Blog1/static/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../../Blog1/static/css/common.css" />
+	<script src="../../Blog1/static/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../Blog1/static/plugin/jquery.page.css">
+    <script type="text/javascript" src="../../Blog1/static/plugin/jquery.page.js"></script>
+    <script src="../../Blog1/static/plugin/js.cookie.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#page").Page({
+                totalPages: {{ page_num }},//分页总数
+                liNums: 5,//分页的数字按钮数(建议取奇数)
+                activeClass: 'activP', //active 类样式定义
+                callBack: function (page) {
+                        $.ajax({
+                        type: 'POST',
+                        url: "/search/",
+                        data: {keywords: "{{ keywords }}", page: page},
+                        headers:{ "X-CSRFtoken":$.cookie("csrftoken")},
+                        async: false,
+                        success: function (res) {
+                        $(".search_result").html(res);
+                        }})
+                    //console.log(page);
+                }
+            });
+        })
+    </script>
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+    	<div class="w_container">
+			<div class="container">
+				<div class="row w_main_row">
+                    <ol class="breadcrumb w_breadcrumb">
+                <li><a href="/">首页</a></li>
+                        <li class="active">搜索到关于<span style="color: red">{{ keywords }}</span>的{{ search_article_num }}条记录</li>
+                <span class="w_navbar_tip">我们长路漫漫，只因学无止境。</span>
+            </ol>
+
+                    <div class="col-lg-9 col-md-9 w_main_left">
+                        <div class="panel panel-default">
+                    <div class="panel-body contentList">
+                        <div class="search_result">
+                            {% for article in articles %}
+                            <div class="panel panel-default w_article_item">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-6 col-md-3">
+                                            <a href="/article/{{ article.id }}" class="thumbnail w_thumbnail">
+                                                <img src="{% if article.cover %}/media/{{ article.cover }}{% else %}../static/img/aticleview.png{% endif %}"
+                                                     width="160px" height="160px" alt="...">
+                                            </a>
+                                        </div>
+
+                                        <h4 class="media-heading">
+                                            <a class="title" href="/article/{{ article.id }}">{{ article.title }}</a>
+                                        </h4>
+                                        <p>
+                                            {% if article.article_tag %}
+                                                {% for tag in article.article_tag.all %}
+                                                    <a class="label label-default" href="/tag/{{ tag.id }}">{{ tag }}</a>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </p>
+                                        <p class="w_list_overview overView">
+                                            <a href="/article/{{ article.id }}">{% if article.abstract %}{{ article.abstract }}{% endif %}</a>
+                                        </p>
+                                        <p class="count_r">
+                                            <span class="count"><i
+                                                    class="glyphicon glyphicon-eye-open"></i>阅读:{{ article.view_times }}</span>
+                                            <span class="count"><i
+                                                    class="glyphicon glyphicon-time"></i>{{ article.public_time }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% if page_num > 1 %}
+                        <div id="page">
+
+                        </div>
+                    {% endif %}
+
+{#Bootstrap 分页功能    #}
+{#<div class="page-header" style="text-align: center">#}
+{#<nav aria-label="Page navigation">#}
+{#  <ul class="pagination">#}
+{#    <li>#}
+{#      <a href="#" aria-label="Previous">#}
+{#        <span aria-hidden="true">&laquo;</span>#}
+{#      </a>#}
+{#    </li>#}
+{#    <li><a href="javascript:;" id="PAGE">1</a></li>#}
+{#    <li><a href="javascript:;" id="PAGE">2</a></li>#}
+{#    <li><a href="javascript:;" id="PAGE">3</a></li>#}
+{#    <li><a href="javascript:;" id="PAGE">4</a></li>#}
+{#    <li><a href="javascript:;" id="PAGE">5</a></li>#}
+{#    <li>#}
+{#      <a href="#" aria-label="Next">#}
+{#        <span aria-hidden="true">&raquo;</span>#}
+{#      </a>#}
+{#    </li>#}
+{#  </ul>#}
+{#</nav>#}
+{#    <script>#}
+{#        $("#PAGE").click();#}
+{#    </script>#}
+{#</div>#}
+
+                    </div>
+                </div>
+					</div>
+
+					<div class="col-lg-3 col-md-3 w_main_right">
+                        <div class="panel panel-default">
+							<div class="panel-heading">
+								<h2 class="panel-title">文章分类</h2>
+							</div>
+							<div class="panel-body">
+								<ul class="list-unstyled sidebar">
+                                    {% for class in classes %}
+									<li>
+										<a href="/class/{{ class.id }}">{{ class.Class_name }}</a>
+									</li>
+                                    {% endfor %}
+								</ul>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">热门标签</h3>
+							</div>
+							<div class="panel-body">
+								<div class="labelList">
+                                    {% for tag in tags %}
+									<a class="label label-default" href="/tag/{{ tag.id }}">{{ tag.Tag_name }}</a>
+                                    {% endfor %}
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">最新发布</h3>
+							</div>
+							<div class="panel-body">
+								<ul class="list-unstyled sidebar">
+
+                                  {% for article in article_news %}
+									<li>
+										<a href="/article/{{ article.id }}">{{ article.title }}</a>
+									</li>
+                                  {% endfor %}
+
+								</ul>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">友情链接</h3>
+							</div>
+							<div class="panel-body">
+								<div class="newContent">
+									<ul class="list-unstyled sidebar shiplink">
+										<li><a href="https://www.tanghaolun.cn:666" target="_blank">Totoro音乐</a></li>
+										<li><a href="https://www.baidu.com" target="_blank">百度</a>	</li>
+										<li><a href="http://www.ulewo.com/" target="_blank">有乐网</a></li>
+										<li><a href="http://www.sina.com.cn/" target="_blank">新浪网</a></li>
+										<li><a href="http://www.qq.com/" target="_blank">腾讯网</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+{% endblock %}
+
